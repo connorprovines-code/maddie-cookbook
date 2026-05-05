@@ -3,165 +3,186 @@
 import { useState } from "react";
 import { recipes } from "./recipes";
 
-function RecipeCard({ recipe, onClick }) {
-  return (
-    <button className="recipe-card" onClick={onClick}>
-      <div className="emoji">{recipe.emoji}</div>
-      <h2>{recipe.title}</h2>
-      <p className="desc">{recipe.description}</p>
-      <div className="servings">{recipe.servings}</div>
-    </button>
-  );
-}
+export default function Home() {
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [activeTab, setActiveTab] = useState("steps");
+  const [completedSteps, setCompletedSteps] = useState({});
+  const [checkedItems, setCheckedItems] = useState({});
 
-function RecipeDetail({ recipe, onBack }) {
-  const [completed, setCompleted] = useState(new Set());
-  const [tab, setTab] = useState("steps");
-
-  const toggle = (key) => {
-    setCompleted((prev) => {
-      const next = new Set(prev);
-      next.has(key) ? next.delete(key) : next.add(key);
-      return next;
-    });
+  const toggleStep = (sectionIdx, stepIdx) => {
+    const key = `${sectionIdx}-${stepIdx}`;
+    setCompletedSteps((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
+  const toggleCheckItem = (catIdx, itemIdx) => {
+    const key = `${catIdx}-${itemIdx}`;
+    setCheckedItems((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const clearProgress = () => {
+    setCompletedSteps({});
+    setCheckedItems({});
+  };
+
+  const handleBack = () => {
+    setSelectedRecipe(null);
+    setActiveTab("steps");
+    setCompletedSteps({});
+    setCheckedItems({});
+  };
+
+  if (!selectedRecipe) {
+    return (
+      <div className="container">
+        <div className="header">
+          <h1>Our Cookbook</h1>
+          <p>Maddie &amp; Connor&apos;s digital cookbook</p>
+        </div>
+        <div className="recipe-grid">
+          {recipes.map((recipe) => (
+            <button
+              key={recipe.id}
+              className="recipe-card"
+              onClick={() => setSelectedRecipe(recipe)}
+            >
+              <div className="emoji">{recipe.emoji}</div>
+              <h2>{recipe.title}</h2>
+              <p className="desc">{recipe.description}</p>
+              <div className="servings">{recipe.servings}</div>
+            </button>
+          ))}
+        </div>
+        <div className="footer">Made with love</div>
+      </div>
+    );
+  }
+
+  const recipe = selectedRecipe;
 
   return (
     <div className="container detail">
-      <button className="back-btn" onClick={onBack}>
-        &larr; Back to recipes
+      <button className="back-btn" onClick={handleBack}>
+        ← Back to recipes
       </button>
-
       <div className="detail-emoji">{recipe.emoji}</div>
       <h1>{recipe.title}</h1>
       <p className="desc">{recipe.description}</p>
-      <p className="servings">{recipe.servings}</p>
+      <div className="servings">{recipe.servings}</div>
 
       <div className="tabs">
         <button
-          className={`tab ${tab === "steps" ? "active" : ""}`}
-          onClick={() => setTab("steps")}
+          className={`tab ${activeTab === "steps" ? "active" : ""}`}
+          onClick={() => setActiveTab("steps")}
         >
-          Instructions
+          Steps
         </button>
         <button
-          className={`tab ${tab === "shopping" ? "active" : ""}`}
-          onClick={() => setTab("shopping")}
+          className={`tab ${activeTab === "shopping" ? "active" : ""}`}
+          onClick={() => setActiveTab("shopping")}
         >
           Shopping List
         </button>
+        <button
+          className="tab"
+          onClick={clearProgress}
+          style={{ marginLeft: "auto" }}
+          aria-label="Clear progress"
+        >
+          🗑
+        </button>
       </div>
 
-      {tab === "shopping" &&
-        recipe.shoppingList.map((group) => (
-          <div className="section" key={group.category}>
-            <h3>{group.category}</h3>
-            <ul className="step-list">
-              {group.items.map((item) => {
-                const key = `shop-${group.category}-${item}`;
-                const done = completed.has(key);
-                return (
-                  <li key={item}>
-                    <button
-                      className={`check-btn ${done ? "done" : ""}`}
-                      onClick={() => toggle(key)}
-                    >
-                      <span className={`checkbox ${done ? "checked" : ""}`}>
-                        {done && "\u2713"}
-                      </span>
-                      {item}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-
-      {tab === "steps" && (
+      {activeTab === "steps" && (
         <>
-          {recipe.sections.map((section) => (
-            <div className="section" key={section.title}>
+          {recipe.sections.map((section, sIdx) => (
+            <div className="section" key={sIdx}>
               <h3>{section.title}</h3>
-              <ol className="step-list">
-                {section.steps.map((step, i) => {
-                  const key = `${section.title}-${i}`;
-                  const done = completed.has(key);
+              <ul className="step-list">
+                {section.steps.map((step, stepIdx) => {
+                  const isDone = completedSteps[`${sIdx}-${stepIdx}`];
                   return (
-                    <li key={i}>
+                    <li key={stepIdx}>
                       <button
-                        className={`step-btn ${done ? "done" : ""}`}
-                        onClick={() => toggle(key)}
+                        className={`step-btn ${isDone ? "done" : ""}`}
+                        onClick={() => toggleStep(sIdx, stepIdx)}
                       >
                         <span
-                          className={`step-num ${done ? "completed" : "pending"}`}
+                          className={`step-num ${isDone ? "completed" : "pending"}`}
                         >
-                          {done ? "\u2713" : i + 1}
+                          {isDone ? "✓" : stepIdx + 1}
                         </span>
                         <span className="step-text">{step}</span>
                       </button>
                     </li>
                   );
                 })}
-              </ol>
+              </ul>
             </div>
           ))}
 
           {recipe.assembly && (
             <div className="section">
-              <h3>\ud83c\udf7d Assembly</h3>
-              <ol className="step-list">
-                {recipe.assembly.map((step, i) => {
-                  const key = `assembly-${i}`;
-                  const done = completed.has(key);
+              <h3>🍽 Assembly</h3>
+              <ul className="step-list">
+                {recipe.assembly.map((item, idx) => {
+                  const key = `assembly-${idx}`;
+                  const isDone = completedSteps[key];
                   return (
-                    <li key={i}>
+                    <li key={idx}>
                       <button
-                        className={`step-btn ${done ? "done" : ""}`}
-                        onClick={() => toggle(key)}
+                        className={`step-btn ${isDone ? "done" : ""}`}
+                        onClick={() =>
+                          setCompletedSteps((prev) => ({
+                            ...prev,
+                            [key]: !prev[key],
+                          }))
+                        }
                       >
                         <span
-                          className={`step-num ${done ? "completed" : "pending"}`}
+                          className={`step-num ${isDone ? "completed" : "pending"}`}
                         >
-                          {done ? "\u2713" : i + 1}
+                          {isDone ? "✓" : idx + 1}
                         </span>
-                        <span className="step-text">{step}</span>
+                        <span className="step-text">{item}</span>
                       </button>
                     </li>
                   );
                 })}
-              </ol>
+              </ul>
             </div>
           )}
         </>
       )}
-    </div>
-  );
-}
 
-export default function Home() {
-  const [selected, setSelected] = useState(null);
-
-  if (selected) {
-    return <RecipeDetail recipe={selected} onBack={() => setSelected(null)} />;
-  }
-
-  return (
-    <div className="container">
-      <div className="header">
-        <h1>Our Cookbook</h1>
-        <p>Maddie &amp; Connor&apos;s favorite recipes</p>
-      </div>
-
-      <div className="recipe-grid">
-        {recipes.map((recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            recipe={recipe}
-            onClick={() => setSelected(recipe)}
-          />
-        ))}
-      </div>
+      {activeTab === "shopping" && (
+        <>
+          {recipe.shoppingList.map((cat, catIdx) => (
+            <div className="section" key={catIdx}>
+              <h3>{cat.category}</h3>
+              <ul className="step-list">
+                {cat.items.map((item, itemIdx) => {
+                  const isDone = checkedItems[`${catIdx}-${itemIdx}`];
+                  return (
+                    <li key={itemIdx}>
+                      <button
+                        className={`check-btn ${isDone ? "done" : ""}`}
+                        onClick={() => toggleCheckItem(catIdx, itemIdx)}
+                      >
+                        <span
+                          className={`checkbox ${isDone ? "checked" : ""}`}
+                        >
+                          {isDone ? "✓" : ""}
+                        </span>
+                        <span>{item}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </>
+      )}
 
       <div className="footer">Made with love</div>
     </div>

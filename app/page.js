@@ -184,6 +184,13 @@ export default function Home() {
         </>
       )}
 
+      {recipe.notes && (
+        <div className="section notes">
+          <h3>📝 Notes</h3>
+          <p>{recipe.notes}</p>
+        </div>
+      )}
+
       <div className="footer">Made with love</div>
     </div>
   );

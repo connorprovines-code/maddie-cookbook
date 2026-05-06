@@ -105,9 +105,9 @@ export const recipes = [
   {
     id: "davids-smoked-bbq-chicken",
     title: "David's Smoked BBQ Chicken",
-    emoji: "🍗",
+    emoji: "\ud83c\udf57",
     description:
-      "A three-stage build — brine, dry rub, vinegar marinade, plus a Carolina-style finishing sauce. Low and slow smoked chicken with layers of flavor.",
+      "A three-stage build \u2014 brine, dry rub, vinegar marinade, plus a Carolina-style finishing sauce. Low and slow on the smoker.",
     servings: "Serves 6",
     shoppingList: [
       {
@@ -115,16 +115,13 @@ export const recipes = [
         items: ["5 lb whole chicken or bone-in pieces"],
       },
       {
-        category: "Produce",
-        items: ["3 bay leaves"],
-      },
-      {
-        category: "Pantry/Spices",
+        category: "Brine & Rub",
         items: [
           "Kosher salt (14 tbsp for brine)",
-          "1 tbsp onion powder",
-          "1 tbsp garlic powder",
-          "1/2 cup + 2 tbsp brown sugar",
+          "Onion powder",
+          "Garlic powder",
+          "3 bay leaves",
+          "\u00bd cup brown sugar",
           "3 tbsp paprika",
           "2 tbsp dried garlic flakes",
           "2 tbsp dried onion flakes",
@@ -133,63 +130,59 @@ export const recipes = [
         ],
       },
       {
-        category: "Sauces & Liquids",
+        category: "Sauces & Marinade",
         items: [
-          "1/2 cup ketchup",
-          "3/4 cup apple cider vinegar",
-          "2 tbsp apple juice",
-          "3 tbsp hot sauce",
+          "\u00bd cup ketchup",
+          "Apple cider vinegar (\u00be cup total)",
+          "Apple juice (2 tbsp)",
+          "Hot sauce (3 tbsp total)",
+          "Brown sugar (extra 2 tbsp)",
           "1 cup Carolina-style BBQ sauce",
         ],
       },
     ],
     sections: [
       {
-        title: "🧂 Brine",
+        title: "\ud83e\uddc2 Brine (4\u201312 hours ahead)",
         steps: [
-          "Combine 8 cups water and 14 tbsp kosher salt (1.75 tbsp per cup — this ratio is the only measurement that really matters). Stir until dissolved.",
+          "Combine 8 cups water and 14 tbsp kosher salt (1.75 tbsp per cup \u2014 this ratio is the only measurement that really matters). Stir until dissolved.",
           "Add 1 tbsp onion powder, 1 tbsp garlic powder, and 3 bay leaves.",
-        ],
-      },
-      {
-        title: "🌶 Pork Rub",
-        steps: [
-          "Combine 1/2 cup brown sugar, 3 tbsp paprika, 2 tbsp dried garlic flakes, 2 tbsp dried onion flakes, 1 tbsp crushed red pepper, 1 tbsp black pepper.",
-          "Reserve 1 tbsp of rub for the finishing sauce.",
-        ],
-      },
-      {
-        title: "🫙 Vinegar Marinade",
-        steps: [
-          "Whisk together 1/2 cup ketchup, 1/2 cup apple cider vinegar, 2 tbsp apple juice, 1 tbsp hot sauce, 2 tbsp brown sugar, salt and pepper to taste.",
-          "Aim for roughly 1:1 vinegar to everything else.",
-        ],
-      },
-      {
-        title: "🍯 Finishing BBQ Sauce",
-        steps: [
-          "Mix 1 cup Carolina-style BBQ sauce, 1/4 cup apple cider vinegar, 2 tbsp hot sauce, and 1 tbsp reserved rub.",
-        ],
-      },
-      {
-        title: "🐔 Brine & Prep",
-        steps: [
+          "Mix the pork rub: \u00bd cup brown sugar, 3 tbsp paprika, 2 tbsp dried garlic flakes, 2 tbsp dried onion flakes, 1 tbsp crushed red pepper, 1 tbsp black pepper. Reserve 1 tbsp for the finishing sauce.",
           "Stir most of the rub into the brine. Add chicken, fully submerged.",
-          "Brine 4–12 hours in the fridge. Longer for whole birds, 4 hours is fine for pieces.",
-          "Pull chicken from brine, pat completely dry (this is critical for good bark), then coat all over with remaining rub.",
+          "Brine 4\u201312 hours in the fridge. Longer for whole birds, 4 hours is fine for pieces.",
         ],
       },
       {
-        title: "🔥 Smoke",
+        title: "\ud83e\uddf4 Vinegar Marinade",
         steps: [
-          "Smoke at 225–250°F until breasts hit 140°F internal (roughly 1.5–2 hours for pieces, longer for whole bird).",
-          "Start saucing at 140°F. Brush on the finishing BBQ sauce. Re-apply every 15–20 minutes.",
-          "Pull at temp. Breasts at 155–160°F. Dark meat can go to 185°F without drying out.",
-          "Rest 10 minutes before cutting. Serve with extra sauce on the side.",
+          "Whisk together: \u00bd cup ketchup, \u00bd cup apple cider vinegar, 2 tbsp apple juice, 1 tbsp hot sauce, 2 tbsp brown sugar, salt and pepper.",
+          "Aim for roughly 1:1 vinegar to everything else.",
+          "Set aside \u2014 this is for basting during the smoke.",
+        ],
+      },
+      {
+        title: "\ud83c\udf36\ufe0f Finishing BBQ Sauce",
+        steps: [
+          "Mix 1 cup Carolina-style BBQ sauce, \u00bc cup apple cider vinegar, 2 tbsp hot sauce, 1 tbsp reserved rub.",
+          "Set aside for the last stage of smoking.",
+        ],
+      },
+      {
+        title: "\ud83d\udd25 Smoke",
+        steps: [
+          "Pull chicken from brine, pat completely dry (this is critical for good bark).",
+          "Coat all over with remaining rub.",
+          "Smoke at 225\u2013250\u00b0F until breasts hit 140\u00b0F internal (roughly 1.5\u20132 hours for pieces, longer for whole bird).",
+          "At 140\u00b0F, start brushing on the finishing BBQ sauce. Re-apply every 15\u201320 minutes.",
+          "Pull at temp: breasts at 155\u2013160\u00b0F, dark meat can go to 185\u00b0F without drying out.",
+          "Rest 10 minutes before cutting.",
         ],
       },
     ],
-    notes:
-      'Salt-to-water ratio is the only measurement that truly matters. Everything else is \u201ca bit of this, a bit of that.\u201d If you don\'t have Carolina-style BBQ sauce, the vinegar marinade works as a substitute for the finishing sauce.',
+    assembly: [
+      "Slice or pull the chicken",
+      "Serve with extra finishing sauce on the side",
+      "Goes great with coleslaw, cornbread, or pickles",
+    ],
   },
 ];
